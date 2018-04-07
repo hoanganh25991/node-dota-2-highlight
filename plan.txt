@@ -1,0 +1,3 @@
+# ffmpeg cut video
+# auto schedule by auto click
+# ui to maintain & manage
