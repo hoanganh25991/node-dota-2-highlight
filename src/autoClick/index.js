@@ -1,5 +1,5 @@
 import * as autoClick from "robotjs"
-import * as kb from "./constant"
+import * as c from "./constant"
 import dota2 from "./dota-2"
 
 const _ = console.log
@@ -22,7 +22,7 @@ const goTo = async ({ key, time = 500 }) => {
 }
 
 const openSteamApp = async () => {
-  autoClick.keyTap(kb.WIN_KEY)
+  autoClick.keyTap(c.WIN_KEY)
   autoClick.typeString(STEAM_APP)
   autoClick.keyTap("enter")
   await delay(500)
@@ -36,6 +36,15 @@ const openReplay = async ({ matchId, chunks }) => {
   await goTo({ key: "watchBtn" })
   await goTo({ key: "replayBtn" })
   await goTo({ key: "searchBar" })
+  await goTo({ key: "pressSearch", time: 3000 })
+
+  const { downloadReplayBtn } = dota2
+  const bitmap = autoClick.screen.capture(
+    downloadReplayBtn.x,
+    downloadReplayBtn.y,
+    c.DOWNLOAD_REPLAY_BTN_WIDTH,
+    c.DOWNLOAD_REPLAY_BTN_HEIGHT
+  )
 
   autoClick.typeString(matchId)
 }
