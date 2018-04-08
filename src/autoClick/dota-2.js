@@ -7,5 +7,9 @@ export default {
   pressSearch: { x: 1814, y: 86 },
   downloadReplayBtn: { x: 840, y: 830 },
   watchReplay: { x: 900, y: 845 },
-  noBroadCaster: { x: 773, y: 795 }
+  noBroadCaster: { x: 840, y: 800 },
+  closeCaptainMode: { x: 1894, y: 36 },
+  '""': { x: 1654, y: 519 },
+  closeWatchReplay: { x: 1890, y: 33 },
+  closeWatchReplayConfirm: { x: 857, y: 593 }
 }

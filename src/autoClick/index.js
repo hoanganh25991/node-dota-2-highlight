@@ -44,28 +44,39 @@ const checkShouldDownloadReplay = async () => {
   return ocr.toLowerCase().includes("download")
 }
 
-const pressNoBroadcaster = () => {
-  const { noBroadCaster } = dota2
+const pressWatchReplay = async () => {
+  if (await checkShouldDownloadReplay()) {
+    await goTo({ key: "downloadReplayBtn", time: 3500 })
+  }
+
+  await goTo({ key: "watchReplay" })
+}
+
+const pressNoBroadcaster = async () => {
+  await delay(4500)
+  const { noBroadCaster: { x, y } } = dota2
+  const step = -10
+  let start = y
+  while (start > 0) {
+    await autoClick.moveMouse(x, start)
+    await autoClick.mouseClick()
+    start += step
+  }
 }
 
 const openReplay = async ({ matchId, chunks }) => {
   await openSteamApp()
-
   await goTo({ key: "playBtn" })
-  await goTo({ key: "playConfirmBtn", time: 10000 })
+  await goTo({ key: "playConfirmBtn", time: 8000 })
+
   await goTo({ key: "watchBtn" })
   await goTo({ key: "replayBtn" })
   await goTo({ key: "searchBar" })
   await autoClick.typeString(matchId)
   await goTo({ key: "pressSearch", time: 4000 })
 
-  const shouldDownloadReplay = await checkShouldDownloadReplay()
-
-  if (shouldDownloadReplay) {
-    await goTo({ key: "downloadReplayBtn", time: 3500 })
-  }
-
-  await goTo({ key: "watchReplay" })
+  await pressWatchReplay()
+  await pressNoBroadcaster()
 }
 
 openReplay({ matchId: "3820853613", chunks: [] }).then(() => _("Finished"))
