@@ -3,3 +3,5 @@ node_modules
 tmp
 videos
 dist
+yarn-error.log
+1523*.png
