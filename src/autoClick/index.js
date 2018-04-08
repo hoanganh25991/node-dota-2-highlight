@@ -11,30 +11,33 @@ const STEAM_APP = "steam"
 const flatParams = paramObj => Object.values(paramObj)
 const delay = time => new Promise(rsl => setTimeout(rsl, time))
 
-const _moveMouse = autoClick.moveMouse.bind(autoClick)
-autoClick.moveMouse2 = ({ left, top }) => _moveMouse(left, top)
+// const _moveMouse = autoClick.moveMouse.bind(autoClick)
+// autoClick.moveMouse2 = ({ left, top }) => _moveMouse(left, top)
 
-const openSteam = async ({ matchId, chunks }) => {
+const goTo = async ({ key, time = 500 }) => {
+  _(`[INFO] Go to ${key}`)
+  autoClick.moveMouse(...flatParams(dota2[key]))
+  autoClick.mouseClick()
+  await delay(time)
+}
+
+const openSteamApp = async () => {
   autoClick.keyTap(kb.WIN_KEY)
   autoClick.typeString(STEAM_APP)
   autoClick.keyTap("enter")
-
   await delay(500)
-  autoClick.moveMouse2(dota2.playBtn)
-  autoClick.mouseClick()
+}
 
-  await delay(500)
-  autoClick.moveMouse2(dota2.playConfirmBtn)
-  autoClick.mouseClick()
+const openReplay = async ({ matchId, chunks }) => {
+  await openSteamApp()
 
-  await delay(10000)
-  autoClick.moveMouse2(dota2.replayBtn)
+  await goTo({ key: "playBtn" })
+  await goTo({ key: "playConfirmBtn", time: 10000 })
+  await goTo({ key: "watchBtn" })
+  await goTo({ key: "replayBtn" })
+  await goTo({ key: "searchBar" })
 
-  await delay(500)
-  autoClick.moveMouse2(dota2.searchBar)
-
-  await delay(500)
   autoClick.typeString(matchId)
 }
 
-openSteam({ matchId: "3820853613", chunks: [] }).then(console.log)
+openReplay({ matchId: "3820853613", chunks: [] }).then(console.log)
