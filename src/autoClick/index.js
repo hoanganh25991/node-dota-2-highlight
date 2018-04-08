@@ -16,10 +16,15 @@ const delay = time => new Promise(rsl => setTimeout(rsl, time))
 // const _moveMouse = autoClick.moveMouse.bind(autoClick)
 // autoClick.moveMouse2 = ({ left, top }) => _moveMouse(left, top)
 
-const clickOn = async ({ key, time = 500 }) => {
+const clickOn = async ({ key, time = 1500 }) => {
   _(`[INFO] Click on ${key}`)
   autoClick.moveMouse(...flatParams(dota2[key]))
   autoClick.mouseClick()
+  await delay(time)
+}
+
+const typeIn = async ({ text, time = 1500 }) => {
+  autoClick.typeString(text)
   await delay(time)
 }
 
@@ -27,7 +32,7 @@ const openSteamApp = async () => {
   await autoClick.keyTap(c.WIN_KEY)
   await autoClick.typeString(STEAM_APP)
   await autoClick.keyTap("enter")
-  await delay(500)
+  await delay(1500)
 }
 
 const checkShouldDownloadReplay = async () => {
@@ -60,14 +65,15 @@ const pressNoBroadcaster = async () => {
   while (start > 0) {
     await autoClick.moveMouse(x, start)
     await autoClick.mouseClick()
+    await delay(100)
     start += step
   }
 }
 
 const closeWatchReplay = async () => {
-  await clickOn({ key: "closeCaptainMode", time: 1500 })
-  await clickOn({ key: "closeDota2", time: 1500 })
-  await clickOn({ key: "closeDota2Confirm", time: 1500 })
+  await clickOn({ key: "closeCaptainMode" })
+  await clickOn({ key: "closeDota2" })
+  await clickOn({ key: "closeDota2Confirm" })
   await clickOn({ key: "closeSteam" })
 }
 
@@ -79,7 +85,7 @@ const openReplay = async ({ matchId, chunks }) => {
   await clickOn({ key: "watchBtn" })
   await clickOn({ key: "replayBtn" })
   await clickOn({ key: "searchBar" })
-  await autoClick.typeString(matchId)
+  await typeIn({ text: matchId })
   await clickOn({ key: "pressSearch", time: 4000 })
 
   await pressWatchReplay()

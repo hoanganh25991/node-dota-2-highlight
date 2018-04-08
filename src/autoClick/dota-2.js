@@ -8,8 +8,8 @@ export default {
   downloadReplayBtn: { x: 840, y: 830 },
   watchReplay: { x: 900, y: 845 },
   noBroadCaster: { x: 840, y: 800 },
-  closeCaptainMode: { x: 1905, y: 30 },
+  closeCaptainMode: { x: 1905, y: 27 },
   closeDota2: { x: 1889, y: 27 },
   closeDota2Confirm: { x: 857, y: 593 },
-  closeSteam: { x: 1905, y: 30 }
+  closeSteam: { x: 1905, y: 27 }
 }
