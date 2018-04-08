@@ -8,8 +8,8 @@ export default {
   downloadReplayBtn: { x: 840, y: 830 },
   watchReplay: { x: 900, y: 845 },
   noBroadCaster: { x: 840, y: 800 },
-  closeCaptainMode: { x: 1894, y: 36 },
-  '""': { x: 1654, y: 519 },
+  closeCaptainMode: { x: 1905, y: 30 },
   closeWatchReplay: { x: 1890, y: 33 },
-  closeWatchReplayConfirm: { x: 857, y: 593 }
+  closeWatchReplayConfirm: { x: 857, y: 593 },
+  closeSteam: { x: 1905, y: 30 }
 }

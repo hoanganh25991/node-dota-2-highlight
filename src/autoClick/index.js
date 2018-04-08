@@ -16,8 +16,8 @@ const delay = time => new Promise(rsl => setTimeout(rsl, time))
 // const _moveMouse = autoClick.moveMouse.bind(autoClick)
 // autoClick.moveMouse2 = ({ left, top }) => _moveMouse(left, top)
 
-const goTo = async ({ key, time = 500 }) => {
-  _(`[INFO] Go to ${key}`)
+const clickOn = async ({ key, time = 500 }) => {
+  _(`[INFO] Click on ${key}`)
   autoClick.moveMouse(...flatParams(dota2[key]))
   autoClick.mouseClick()
   await delay(time)
@@ -46,14 +46,14 @@ const checkShouldDownloadReplay = async () => {
 
 const pressWatchReplay = async () => {
   if (await checkShouldDownloadReplay()) {
-    await goTo({ key: "downloadReplayBtn", time: 3500 })
+    await clickOn({ key: "downloadReplayBtn", time: 3500 })
   }
 
-  await goTo({ key: "watchReplay" })
+  await clickOn({ key: "watchReplay" })
 }
 
 const pressNoBroadcaster = async () => {
-  await delay(4500)
+  await delay(7500)
   const { noBroadCaster: { x, y } } = dota2
   const step = -10
   let start = y
@@ -64,19 +64,27 @@ const pressNoBroadcaster = async () => {
   }
 }
 
+const closeWatchReplay = async () => {
+  await clickOn({ key: "closeCaptainMode" })
+  await clickOn({ key: "closeWatchReplay" })
+  await clickOn({ key: "closeWatchReplayConfirm", time: 1000 })
+  await clickOn({ key: "closeSteam" })
+}
+
 const openReplay = async ({ matchId, chunks }) => {
   await openSteamApp()
-  await goTo({ key: "playBtn" })
-  await goTo({ key: "playConfirmBtn", time: 8000 })
+  await clickOn({ key: "playBtn" })
+  await clickOn({ key: "playConfirmBtn", time: 7500 })
 
-  await goTo({ key: "watchBtn" })
-  await goTo({ key: "replayBtn" })
-  await goTo({ key: "searchBar" })
+  await clickOn({ key: "watchBtn" })
+  await clickOn({ key: "replayBtn" })
+  await clickOn({ key: "searchBar" })
   await autoClick.typeString(matchId)
-  await goTo({ key: "pressSearch", time: 4000 })
+  await clickOn({ key: "pressSearch", time: 4000 })
 
   await pressWatchReplay()
   await pressNoBroadcaster()
+  await closeWatchReplay()
 }
 
 openReplay({ matchId: "3820853613", chunks: [] }).then(() => _("Finished"))
