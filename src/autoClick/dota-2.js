@@ -9,7 +9,7 @@ export default {
   watchReplay: { x: 900, y: 845 },
   noBroadCaster: { x: 840, y: 800 },
   closeCaptainMode: { x: 1905, y: 30 },
-  closeWatchReplay: { x: 1890, y: 33 },
+  closeWatchReplay: { x: 1900, y: 33 },
   closeWatchReplayConfirm: { x: 857, y: 593 },
   closeSteam: { x: 1905, y: 30 }
 }
