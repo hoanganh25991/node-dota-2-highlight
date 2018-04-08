@@ -30,17 +30,7 @@ const openSteamApp = async () => {
   await delay(500)
 }
 
-const openReplay = async ({ matchId, chunks }) => {
-  await openSteamApp()
-
-  await goTo({ key: "playBtn" })
-  await goTo({ key: "playConfirmBtn", time: 10000 })
-  await goTo({ key: "watchBtn" })
-  await goTo({ key: "replayBtn" })
-  await goTo({ key: "searchBar" })
-  await autoClick.typeString(matchId)
-  await goTo({ key: "pressSearch", time: 3000 })
-
+const checkShouldDownloadReplay = async () => {
   const { downloadReplayBtn } = dota2
   const bitmap = await autoClick.screen.capture(
     downloadReplayBtn.x,
@@ -50,9 +40,32 @@ const openReplay = async ({ matchId, chunks }) => {
   )
 
   const base64 = await bitMapToBase64(bitmap)
-  _(base64)
   const ocr = await cloudVision(base64)
-  _(ocr)
+  return ocr.toLowerCase().includes("download")
 }
 
-openReplay({ matchId: "3820853613", chunks: [] }).then(console.log)
+const pressNoBroadcaster = () => {
+  const { noBroadCaster } = dota2
+}
+
+const openReplay = async ({ matchId, chunks }) => {
+  await openSteamApp()
+
+  await goTo({ key: "playBtn" })
+  await goTo({ key: "playConfirmBtn", time: 10000 })
+  await goTo({ key: "watchBtn" })
+  await goTo({ key: "replayBtn" })
+  await goTo({ key: "searchBar" })
+  await autoClick.typeString(matchId)
+  await goTo({ key: "pressSearch", time: 4000 })
+
+  const shouldDownloadReplay = await checkShouldDownloadReplay()
+
+  if (shouldDownloadReplay) {
+    await goTo({ key: "downloadReplayBtn", time: 3500 })
+  }
+
+  await goTo({ key: "watchReplay" })
+}
+
+openReplay({ matchId: "3820853613", chunks: [] }).then(() => _("Finished"))

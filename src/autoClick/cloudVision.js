@@ -1,5 +1,7 @@
 import fetch from "../utils/fetch"
 
+const _ = console.log
+
 export const cloudVision = async base64 => {
   const options = {
     method: "POST",
@@ -18,5 +20,7 @@ export const cloudVision = async base64 => {
   }
 
   const res = await fetch(options)
-  return res.data
+  const { responses: [firstResult] } = res.data
+  const { fullTextAnnotation: { text } } = firstResult
+  return text
 }

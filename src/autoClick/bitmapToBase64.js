@@ -16,8 +16,8 @@ export const bitMapToBase64 = bitmap => {
 
   return new Promise((resolve, reject) => {
     const mime = jimg.getMIME()
-    // const timestamp = new Date().getTime()
-    // jimg.write(`${timestamp}.png`)
+    const timestamp = new Date().getTime()
+    jimg.write(`${timestamp}.png`)
     jimg.getBase64(mime, (err, base64) => {
       if (err) reject(err)
       const base64NoHeader = base64.replace(`data:${mime};base64,`, "")

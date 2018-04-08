@@ -5,6 +5,7 @@ export default {
   replayBtn: { x: 928, y: 84 },
   searchBar: { x: 1567, y: 79 },
   pressSearch: { x: 1814, y: 86 },
-  downloadReplayBtn: { x: 949, y: 835 },
-  watchReplay: { x: 950, y: 845 }
+  downloadReplayBtn: { x: 840, y: 830 },
+  watchReplay: { x: 900, y: 845 },
+  noBroadCaster: { x: 773, y: 795 }
 }
