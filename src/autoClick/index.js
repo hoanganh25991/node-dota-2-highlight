@@ -65,9 +65,9 @@ const pressNoBroadcaster = async () => {
 }
 
 const closeWatchReplay = async () => {
-  await clickOn({ key: "closeCaptainMode" })
-  await clickOn({ key: "closeWatchReplay", time: 3500 })
-  await clickOn({ key: "closeWatchReplayConfirm", time: 1000 })
+  await clickOn({ key: "closeCaptainMode", time: 1500 })
+  await clickOn({ key: "closeDota2", time: 1500 })
+  await clickOn({ key: "closeDota2Confirm", time: 1500 })
   await clickOn({ key: "closeSteam" })
 }
 
