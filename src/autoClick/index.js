@@ -59,13 +59,14 @@ const pressWatchReplay = async () => {
 
 const pressNoBroadcaster = async () => {
   await delay(7500)
+  _("[INFO] Click on noBroadcaster")
   const { noBroadCaster: { x, y } } = dota2
   const step = -10
   let start = y
   while (start > 0) {
     await autoClick.moveMouse(x, start)
     await autoClick.mouseClick()
-    await delay(100)
+    await delay(50)
     start += step
   }
 }
@@ -78,19 +79,28 @@ const closeWatchReplay = async () => {
 }
 
 const openReplay = async ({ matchId, chunks }) => {
-  await openSteamApp()
-  await clickOn({ key: "playBtn" })
-  await clickOn({ key: "playConfirmBtn", time: 7500 })
+  let appClosed = true
 
-  await clickOn({ key: "watchBtn" })
-  await clickOn({ key: "replayBtn" })
-  await clickOn({ key: "searchBar" })
-  await typeIn({ text: matchId })
-  await clickOn({ key: "pressSearch", time: 4000 })
+  try {
+    await openSteamApp()
+    await clickOn({ key: "playBtn" })
+    await clickOn({ key: "playConfirmBtn", time: 7500 })
 
-  await pressWatchReplay()
-  await pressNoBroadcaster()
-  await closeWatchReplay()
+    await clickOn({ key: "watchBtn" })
+    await clickOn({ key: "replayBtn" })
+    await clickOn({ key: "searchBar" })
+    await typeIn({ text: matchId })
+    await clickOn({ key: "pressSearch", time: 4000 })
+
+    await pressWatchReplay()
+    await pressNoBroadcaster()
+    await closeWatchReplay()
+  } catch (err) {
+    _("[openReplay][ERR]", err.message)
+    appClosed = false
+  } finally {
+    !appClosed && (await closeWatchReplay())
+  }
 }
 
 openReplay({ matchId: "3820853613", chunks: [] }).then(() => _("Finished"))
