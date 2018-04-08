@@ -1,6 +1,8 @@
 import * as autoClick from "robotjs"
 import * as c from "./constant"
 import dota2 from "./dota-2"
+import { bitMapToBase64 } from "./bitmapToBase64"
+import { cloudVision } from "./cloudVision"
 
 const _ = console.log
 const screenSize = autoClick.getScreenSize()
@@ -22,9 +24,9 @@ const goTo = async ({ key, time = 500 }) => {
 }
 
 const openSteamApp = async () => {
-  autoClick.keyTap(c.WIN_KEY)
-  autoClick.typeString(STEAM_APP)
-  autoClick.keyTap("enter")
+  await autoClick.keyTap(c.WIN_KEY)
+  await autoClick.typeString(STEAM_APP)
+  await autoClick.keyTap("enter")
   await delay(500)
 }
 
@@ -36,17 +38,21 @@ const openReplay = async ({ matchId, chunks }) => {
   await goTo({ key: "watchBtn" })
   await goTo({ key: "replayBtn" })
   await goTo({ key: "searchBar" })
+  await autoClick.typeString(matchId)
   await goTo({ key: "pressSearch", time: 3000 })
 
   const { downloadReplayBtn } = dota2
-  const bitmap = autoClick.screen.capture(
+  const bitmap = await autoClick.screen.capture(
     downloadReplayBtn.x,
     downloadReplayBtn.y,
     c.DOWNLOAD_REPLAY_BTN_WIDTH,
     c.DOWNLOAD_REPLAY_BTN_HEIGHT
   )
 
-  autoClick.typeString(matchId)
+  const base64 = await bitMapToBase64(bitmap)
+  _(base64)
+  const ocr = await cloudVision(base64)
+  _(ocr)
 }
 
 openReplay({ matchId: "3820853613", chunks: [] }).then(console.log)
